@@ -36,12 +36,26 @@ export default function App() {
     }
   };
 
+  const defaultSubjects = [
+    { id: 1, name: "Web Development", code: "CS305", department: "CSE", semester: 5 },
+    { id: 2, name: "Data Structures & Algorithms", code: "CS301", department: "CSE", semester: 3 },
+    { id: 3, name: "Database Management Systems", code: "CS402", department: "CSE", semester: 4 },
+    { id: 4, name: "Artificial Intelligence", code: "AI501", department: "AIDS", semester: 5 },
+    { id: 5, name: "Computer Networks", code: "CS503", department: "CSE", semester: 5 },
+    { id: 6, name: "Digital Electronics", code: "EC302", department: "ECE", semester: 3 },
+  ];
+
   const fetchSubjects = async () => {
     try {
       const data = await api.getSubjects();
-      setSubjects(data);
+      if (Array.isArray(data) && data.length > 0) {
+        setSubjects(data);
+      } else {
+        setSubjects(defaultSubjects);
+      }
     } catch (err) {
-      console.error('Error fetching subjects:', err);
+      console.warn("Using fallback subjects list:", err);
+      setSubjects(defaultSubjects);
     }
   };
 
