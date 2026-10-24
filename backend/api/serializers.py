@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Subject, Note
+from .models import Note, Subject
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,7 +15,7 @@ class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = [
-            'id', 'title', 'description', 'resource_type',
-            'subject_id', 'subject_details', 'file_url',
-            'uploader_name', 'upvotes', 'created_at'
+            'id', 'title', 'description', 'resource_type', 
+            'subject_id', 'subject_details', 'semester', 
+            'file_url', 'uploader_name', 'upvotes', 'created_at'
         ]

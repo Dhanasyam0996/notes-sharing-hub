@@ -12,18 +12,22 @@ class Subject(models.Model):
 class Note(models.Model):
     RESOURCE_TYPES = [
         ('NOTES', 'Class Notes'),
-        ('QB', 'Question Bank'),
-        ('SYLLABUS', 'Syllabus Copy'),
+        ('QB', 'Question Banks'),
+        ('SYLLABUS', 'Syllabus Copies'),
     ]
 
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, default='')
     resource_type = models.CharField(max_length=20, choices=RESOURCE_TYPES, default='NOTES')
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='notes')
+    semester = models.IntegerField(default=7)  # <--- ADD THIS FIELD
     file_url = models.URLField()
-    uploader_name = models.CharField(max_length=100, default='Anonymous Student')
-    upvotes = models.PositiveIntegerField(default=0)
+    uploader_name = models.CharField(max_length=100, blank=True, default='Anonymous')
+    upvotes = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
-        return self.title
+        return f"{self.title} (Sem {self.semester})"
